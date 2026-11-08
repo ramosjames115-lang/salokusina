@@ -1,0 +1,67 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="register-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" color="dark"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="register-title">Create Account</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="bg-light-orange">
+  <div class="register-container">
+    
+    <div class="welcome-text">
+      <h2>Get Started Here!</h2>
+      <p>Create an account to enjoy the featured dishes on Salo Kusina.</p>
+    </div>
+
+    <!-- Registration form inputs with [(ngModel)] to capture typed values -->
+    <div class="register-form">
+      <ion-item lines="none" class="custom-input-item">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-input type="text" placeholder="Full Name" [(ngModel)]="fullName"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="custom-input-item">
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <ion-input type="email" placeholder="Email Address" [(ngModel)]="email"></ion-input>
+      </ion-item>
+
+      <div class="password-group">
+        <ion-item lines="none" class="custom-input-item">
+          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+          <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="Password" [(ngModel)]="password"></ion-input>
+        </ion-item>
+
+        <!-- Password strength meter -->
+        <div class="password-strength" *ngIf="password">
+          <div class="strength-bar">
+            <span class="strength-fill" [ngClass]="passwordStrength"></span>
+          </div>
+          <span class="strength-label" [ngClass]="passwordStrength">{{ passwordStrengthLabel }}</span>
+        </div>
+
+        <ion-item lines="none" class="custom-input-item">
+          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+          <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="Confirm Password" [(ngModel)]="confirmPassword"></ion-input>
+        </ion-item>
+
+        <!-- One toggle that shows/hides both password fields at once -->
+        <div class="show-password-toggle" (click)="togglePasswordVisibility()">
+          <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+          <span>{{ showPassword ? 'Hide Password' : 'Show Password' }}</span>
+        </div>
+      </div>
+
+      <!-- Button that calls our onRegister() function when clicked -->
+      <ion-button expand="block" class="signup-submit-btn" (click)="onRegister()">
+        REGISTER
+      </ion-button>
+    </div>
+
+    <div class="register-footer">
+      <p>Already have an account? <a routerLink="/login" [queryParams]="returnUrlParams">Sign in here.</a></p>
+    </div>
+
+  </div>
+</ion-content>

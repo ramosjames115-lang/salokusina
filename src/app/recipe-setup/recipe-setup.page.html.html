@@ -1,0 +1,52 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="setup-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu" color="dark"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="setup-title">Recipe Setup</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="bg-light-orange">
+  <div class="setup-container">
+
+    <div class="welcome-text">
+      <h2>Prepare Your Recipe</h2>
+      <p>Fill in the key details first before you start writing.</p>
+    </div>
+
+    <!-- Recipe Setup Form -->
+    <div class="setup-form">
+
+      <!-- Dish Name -->
+      <ion-item lines="none" class="custom-input-item">
+        <ion-input type="text" placeholder="Dish Name (Title)" [(ngModel)]="title"></ion-input>
+      </ion-item>
+
+      <!-- Category Selection -->
+      <ion-item lines="none" class="custom-input-item">
+        <ion-select placeholder="Choose a Category" [(ngModel)]="category" mode="ios">
+          <ion-select-option value="Filipino">Filipino</ion-select-option>
+          <ion-select-option value="Appetizers">Appetizers</ion-select-option>
+          <ion-select-option value="Sweets and Desserts">Sweets and Desserts</ion-select-option>
+          <ion-select-option value="Salad">Salad</ion-select-option>
+          <ion-select-option value="Best Chef's Choice">Best Chef's Choice</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- Short Description -->
+      <ion-item lines="none" class="custom-textarea-item">
+        <ion-textarea rows="4" placeholder="Short Description" [(ngModel)]="description"></ion-textarea>
+      </ion-item>
+
+      <!-- Start Writing Button -->
+      <div class="btn-group">
+        <ion-button expand="block" class="setup-submit-btn" (click)="startWriting()">
+          START WRITING
+        </ion-button>
+      </div>
+
+    </div>
+
+  </div>
+</ion-content>

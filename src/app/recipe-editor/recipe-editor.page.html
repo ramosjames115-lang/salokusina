@@ -1,0 +1,45 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/recipe-setup" color="dark"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Write the Recipe</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="editor-container">
+    <h2>{{ title }}</h2>
+    <p style="color: gray; margin-bottom: 20px;">Category: {{ category }}</p>
+
+    <!-- Picture or Video attachment -->
+    <ion-item lines="none" style="margin-bottom: 15px;">
+      <ion-label position="stacked">Attach a Picture or Video</ion-label>
+      <input type="file" accept="image/*,video/*" (change)="onFileSelected($event)" style="margin-top: 10px;" />
+    </ion-item>
+
+    <!-- Media Preview -->
+    <div *ngIf="mediaFile" style="margin-bottom: 15px; text-align: center;">
+      <img *ngIf="mediaType === 'image'" [src]="mediaFile" alt="Preview" style="max-width: 100%; max-height: 200px; border-radius: 8px;" />
+      <video *ngIf="mediaType === 'video'" [src]="mediaFile" controls style="max-width: 100%; max-height: 200px; border-radius: 8px;"></video>
+    </div>
+
+    <!-- Ingredients -->
+    <ion-item lines="none" style="margin-bottom: 15px;">
+      <ion-textarea rows="5" placeholder="Ingredients" [(ngModel)]="ingredients"></ion-textarea>
+    </ion-item>
+
+    <!-- Instructions -->
+    <ion-item lines="none" style="margin-bottom: 20px;">
+      <ion-textarea rows="6" placeholder="Cooking Instructions" [(ngModel)]="instructions"></ion-textarea>
+    </ion-item>
+
+    <!-- Save Button (no delete) -->
+    <div class="btn-group">
+      <ion-button expand="block" (click)="saveRecipe()">
+        SAVE RECIPE
+      </ion-button>
+    </div>
+
+  </div>
+</ion-content>

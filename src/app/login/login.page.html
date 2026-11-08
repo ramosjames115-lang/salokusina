@@ -1,0 +1,64 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="login-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" color="dark"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="login-title">Sign In</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="bg-light-orange">
+  <div class="login-container">
+
+    <!-- Short greeting -->
+    <div class="welcome-text">
+      <h2>Welcome Back!</h2>
+      <p>Sign in with your email to keep cooking with Salo Kusina.</p>
+    </div>
+
+    <!-- Email / Password Sign In -->
+    <div class="login-form">
+      <ion-item lines="none" class="custom-input-item">
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <ion-input type="email" placeholder="Email Address" [(ngModel)]="email"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="custom-input-item">
+        <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+        <ion-input type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
+      </ion-item>
+
+      <div class="forgot-password">
+        <a (click)="onForgotPassword()">Forgot your password?</a>
+      </div>
+
+      <ion-button expand="block" class="signin-submit-btn" [disabled]="isLoggingIn" (click)="onLogin()">
+        {{ isLoggingIn ? 'SIGNING IN...' : 'SIGN IN' }}
+      </ion-button>
+    </div>
+
+    <!-- Divider Text -->
+    <div class="divider">
+      <span>OR</span>
+    </div>
+
+    <!-- Social login buttons -->
+    <div class="social-buttons">
+      <ion-button expand="block" class="google-btn" (click)="comingSoon('Google')">
+        <ion-icon slot="start" name="logo-google"></ion-icon>
+        Continue with Google
+      </ion-button>
+
+      <ion-button expand="block" class="facebook-btn" (click)="comingSoon('Facebook')">
+        <ion-icon slot="start" name="logo-facebook"></ion-icon>
+        Continue with Facebook
+      </ion-button>
+    </div>
+
+    <!-- Link to Sign Up -->
+    <div class="login-footer">
+      <p>Don't have an account yet? <a routerLink="/register" [queryParams]="returnUrlParams">Sign up now!</a></p>
+    </div>
+
+  </div>
+</ion-content>

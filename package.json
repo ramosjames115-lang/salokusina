@@ -1,0 +1,53 @@
+{
+  "name": "salokusina",
+  "version": "0.0.0",
+  "author": "Ionic Framework",
+  "homepage": "https://ionicframework.com/",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "lint": "ng lint",
+    "ionic:build": "npm run build",
+    "ionic:serve": "npm run start -- --open"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/common": "22.1.7",
+    "@angular/compiler": "22.1.7",
+    "@angular/core": "22.1.7",
+    "@angular/forms": "22.1.7",
+    "@angular/platform-browser": "22.1.7",
+    "@angular/router": "22.1.7",
+    "@capacitor/app": "latest",
+    "@capacitor/core": "latest",
+    "@capacitor/haptics": "latest",
+    "@capacitor/keyboard": "latest",
+    "@capacitor/status-bar": "latest",
+    "@ionic/angular": "^9.0.0",
+    "dompurify": "^3.4.17",
+    "firebase": "^12.19.0",
+    "ionicons": "^8.1.0",
+    "qrcode": "^1.5.4",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "22.1.8",
+    "@angular/cli": "22.1.8",
+    "@angular/compiler-cli": "22.1.7",
+    "@angular/language-service": "22.1.7",
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/cli": "latest",
+    "@ionic/angular-toolkit": "^13.0.0",
+    "@types/qrcode": "^1.5.6",
+    "angular-eslint": "22.0.0",
+    "eslint": "^10.10.0",
+    "jsdom": "^26.0.0",
+    "typescript": "~6.0.0",
+    "typescript-eslint": "^8.61.0",
+    "vitest": "~4.0.18"
+  }
+}

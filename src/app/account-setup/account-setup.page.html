@@ -1,0 +1,77 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="setup-toolbar">
+    <ion-title class="setup-title">Setup Account</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="bg-light-orange">
+  <div class="setup-container">
+    
+    <div class="welcome-text">
+      <h2>Share Your Details</h2>
+      <p>Just a bit more and you're ready to discover delicious dishes!</p>
+    </div>
+
+    <!-- Profile Picture Area -->
+    <div class="avatar-section">
+      <label class="avatar-placeholder" [class.has-photo]="avatarPreview">
+        <img *ngIf="avatarPreview" [src]="avatarPreview" alt="Profile preview" class="avatar-img" />
+        <ion-icon *ngIf="!avatarPreview" name="camera-outline"></ion-icon>
+        <input type="file" accept="image/*" (change)="onAvatarSelected($event)" hidden />
+      </label>
+      <!-- Shows the Display Name passed in from the Register screen -->
+      <h3 class="display-name">{{ displayName }}</h3>
+      <p class="avatar-sub">{{ avatarPreview ? 'Change Profile Picture' : 'Add Profile Picture' }}</p>
+    </div>
+
+    <!-- Wattpad-Style Account Information Form -->
+    <div class="setup-form">
+      
+      <!-- Custom Username Input with fixed '@' prefix -->
+      <ion-item lines="none" class="custom-input-item">
+        <span class="username-prefix">@</span>
+        <ion-input type="text" placeholder="username" [(ngModel)]="username" class="username-field"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="custom-input-item">
+        <ion-icon name="call-outline" slot="start"></ion-icon>
+        <ion-input type="tel" placeholder="Mobile Number" [(ngModel)]="phoneNumber"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="custom-input-item">
+        <ion-icon name="calendar-outline" slot="start"></ion-icon>
+        <ion-input type="date" placeholder="Birthday" [(ngModel)]="birthday"></ion-input>
+      </ion-item>
+
+      <!-- Food interests: what "Top Dishes For You" on the Home feed is built
+           from. The choices come from the categories in the database. -->
+      <div class="interests-section">
+        <h4 class="interests-heading">What food are you into?</h4>
+        <p class="interests-sub">Pick at least one - we'll put these on top of your Home feed.</p>
+        @for (group of interestGroups; track group.title) {
+          <div class="interest-group">
+            <h5 class="interest-group-title">{{ group.title }}</h5>
+            <div class="interest-chips">
+              @for (interest of group.interests; track interest.name) {
+                <button
+                  type="button"
+                  class="interest-chip"
+                  [class.selected]="isInterestSelected(interest.name)"
+                  [attr.aria-pressed]="isInterestSelected(interest.name)"
+                  (click)="toggleInterest(interest.name)">
+                  {{ interest.name }}
+                </button>
+              }
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Save & Continue Button -->
+      <ion-button expand="block" class="setup-submit-btn" [disabled]="isSaving" (click)="onSaveSetup()">
+        {{ isSaving ? 'SAVING...' : 'SAVE & CONTINUE' }}
+      </ion-button>
+    </div>
+
+  </div>
+</ion-content>

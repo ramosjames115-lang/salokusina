@@ -1,0 +1,556 @@
+.main-toolbar {
+  --background: #ffffff;
+  --color: #1a0e05;
+  padding: 4px 12px;
+  
+  .app-title {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -0.5px;
+  }
+}
+
+.top-profile-avatar {
+  width: 36px;
+  height: 36px;
+  border: 2px solid #f48240;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.popover-content {
+  --background: #ffffff;
+}
+
+.logout-item {
+  --color: #dc3545;
+  font-weight: 700;
+  font-size: 14px;
+  
+  ion-icon {
+    color: #dc3545;
+  }
+}
+
+.bg-white {
+  --background: #ffffff;
+}
+
+// Search bar styling
+.search-bar-container {
+  padding: 8px 16px 0 16px;
+  
+  ion-searchbar {
+    --background: #f7f3ef;
+    --border-radius: 12px;
+    --box-shadow: none;
+    --color: #1a0e05;
+    --placeholder-color: #a69a92;
+    padding: 0;
+  }
+}
+
+.no-result-text {
+  text-align: center;
+  color: #665c54;
+  font-size: 14px;
+  margin-top: 32px;
+}
+
+.view-heading {
+  padding: 16px 16px 12px 16px;
+
+  h2 {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1a0e05;
+    margin: 0 0 10px 0;
+  }
+
+  p {
+    font-size: 13px;
+    color: #665c54;
+    margin: 0;
+  }
+
+  ion-segment {
+    --background: #f7f3ef;
+  }
+}
+
+.notif-popover {
+  --background: #ffffff;
+
+  h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    color: #1a0e05;
+  }
+
+  p {
+    font-size: 13px;
+    color: #665c54;
+    margin: 0;
+  }
+}
+
+// Featured Dish hero banner
+.featured-card {
+  position: relative;
+  margin: 16px 16px 0;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+
+  .featured-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .featured-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(244, 130, 64, 0.95);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+
+  .featured-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+    color: #fff;
+
+    h2 {
+      font-size: 18px;
+      font-weight: 800;
+      margin: 0 0 4px;
+    }
+
+    p {
+      font-size: 12px;
+      margin: 0;
+      opacity: 0.9;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+}
+
+// Active category filter chip, shown above the feed
+.filter-chip-row {
+  padding: 8px 16px 0;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff3e8;
+  color: #f48240;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+
+  ion-icon {
+    font-size: 16px;
+  }
+}
+
+// Browse Categories full-screen picker
+.categories-page {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.categories-heading {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a0e05;
+  margin: 0 0 4px;
+}
+
+.category-tile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #f48240;
+  border: none;
+  border-radius: 16px;
+  padding: 14px 18px;
+  cursor: pointer;
+  text-align: left;
+
+  .category-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    ion-icon {
+      font-size: 24px;
+      color: #ffffff;
+    }
+  }
+
+  .category-label {
+    font-size: 17px;
+    font-weight: 800;
+    color: #1a0e05;
+  }
+
+  &.category-more {
+    justify-content: center;
+  }
+}
+
+.section-heading {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1a0e05;
+  margin: 20px 0 4px;
+}
+
+// Styling for the published dish list
+.recipe-list-container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.recipe-card {
+  background: #ffffff;
+  border: 1px solid #f0f0f0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+
+  .recipe-card-img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    display: block;
+    background: #f7f3ef;
+  }
+
+  .recipe-card-body {
+    padding: 14px 16px 16px;
+  }
+
+  h3 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1a0e05;
+    margin: 0 0 6px 0;
+  }
+
+  .recipe-category {
+    font-size: 12px;
+    font-weight: 600;
+    color: #f48240;
+    background: #fff3e8;
+    padding: 2px 8px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 8px;
+    margin-right: 6px;
+  }
+
+  .draft-badge {
+    font-size: 11px;
+    font-weight: 700;
+    color: #8a6d00;
+    background: #fff3c4;
+    padding: 2px 8px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  .author-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+
+    .author-avatar {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .author-name {
+      font-size: 12px;
+      color: #8a8a8a;
+      font-weight: 600;
+    }
+  }
+
+ .recipe-description {
+    font-size: 14px;
+    color: #665c54;
+    margin: 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .recipe-card-footer {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #f5f5f5;
+  }
+
+  .icon-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    padding: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #8a8a8a;
+    cursor: pointer;
+
+    ion-icon {
+      font-size: 20px;
+    }
+
+    &.like-btn.active {
+      color: #e0245e;
+    }
+
+    &.bookmark-btn.active {
+      color: #f48240;
+    }
+  }
+
+  .read-btn {
+    margin: 0 0 0 auto;
+    --background: #f48240;
+    --color: #ffffff;
+    --border-radius: 8px;
+    font-weight: 700;
+    font-size: 12px;
+  }
+}
+
+// Skeleton loading placeholders while recipes are being fetched
+.skeleton-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+}
+
+.skeleton-cover {
+  width: 100%;
+  height: 150px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #f7f7f7 37%, #f0f0f0 63%);
+  background-size: 400% 100%;
+  animation: skeleton-shimmer 1.4s ease infinite;
+}
+
+.skeleton-line {
+  border-radius: 6px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #f7f7f7 37%, #f0f0f0 63%);
+  background-size: 400% 100%;
+  animation: skeleton-shimmer 1.4s ease infinite;
+  height: 12px;
+}
+
+.skeleton-title {
+  width: 60%;
+  height: 18px;
+}
+
+.skeleton-tag {
+  width: 30%;
+  height: 16px;
+  border-radius: 6px;
+}
+
+.skeleton-text {
+  width: 100%;
+
+  &.short {
+    width: 75%;
+  }
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+.empty-state-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: 32px;
+  color: #1a0e05;
+
+  .empty-icon-box {
+    width: 80px;
+    height: 80px;
+    background: #fff3e8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    
+    ion-icon {
+      font-size: 38px;
+      color: #f48240;
+    }
+  }
+
+  h3 {
+    font-size: 20px;
+    font-weight: 800;
+    margin: 0 0 8px 0;
+  }
+
+  p {
+    font-size: 14px;
+    color: #665c54;
+    margin: 0;
+    line-height: 1.5;
+    max-width: 280px;
+  }
+}
+
+.custom-tab-bar {
+  --background: #ffffff;
+  border-top: 1px solid #f0f0f0;
+  height: 64px;
+
+  ion-tab-button {
+    --color: #666666;
+    --color-selected: #f48240;
+    position: relative;
+    font-size: 10px;
+
+    ion-label {
+      font-size: 10px;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    &.active-tab {
+      --color: #f48240;
+    }
+
+    .tab-badge {
+      position: absolute;
+      top: 4px;
+      right: 18px;
+      width: 8px;
+      height: 8px;
+      min-width: 8px;
+      padding: 0;
+      border-radius: 50%;
+    }
+  }
+}
+// Why the featured dish is featured, sitting above its title in the banner
+.featured-card .featured-overlay .featured-reason {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #ffd9bd;
+  margin-bottom: 4px;
+}
+
+// Sub-line under "Top Dishes For You"
+.section-sub {
+  font-size: 12px;
+  color: #665c54;
+  margin: 0 0 4px;
+}
+
+// Tappable hint shown instead of the sub-line when the user has no interests yet
+.section-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0 0 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #f48240;
+  cursor: pointer;
+
+  ion-icon {
+    font-size: 14px;
+  }
+}
+
+// "Ask the admin to feature this dish", on your own published dishes
+.feature-request-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  background: #fff3e8;
+  color: #f48240;
+  border: 1px dashed #f4b183;
+  border-radius: 20px;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+
+  ion-icon {
+    font-size: 15px;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+}

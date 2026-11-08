@@ -1,0 +1,84 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // An admin is just a signed-in user whose own profile document says so.
+    // Only an admin can hand out that role (see the /users rule below), so a
+    // normal user can't promote themselves.
+    function isAdmin() {
+      return request.auth != null
+             && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Recipes: published ones are readable by anyone; drafts are only
+    // readable by their own author. Only the author can create/update/delete
+    // their own recipe, EXCEPT that any signed-in user may update just the
+    // likedBy/savedBy fields (that's how liking/bookmarking someone else's
+    // recipe works).
+    match /recipes/{recipeId} {
+      allow read: if resource.data.status == 'Published'
+                  || (request.auth != null && request.auth.uid == resource.data.authorId);
+
+      allow create: if request.auth != null
+                    && request.auth.uid == request.resource.data.authorId;
+
+      allow update: if request.auth != null && (
+        request.auth.uid == resource.data.authorId
+        || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likedBy', 'savedBy'])
+      );
+
+      allow delete: if request.auth != null && request.auth.uid == resource.data.authorId;
+    }
+
+    // Users: profile info, interests and bookmarks are private to each account.
+    // The 'role' field is the exception - a user may never set or change their
+    // own role, that's an admin-only field.
+    match /users/{userId} {
+      allow read: if isAdmin()
+                  || (request.auth != null && request.auth.uid == userId);
+
+      // A brand new profile may be created by its owner, as long as it doesn't
+      // try to give itself a role
+      allow create: if isAdmin()
+                    || (request.auth != null
+                        && request.auth.uid == userId
+                        && !('role' in request.resource.data));
+
+      allow update: if isAdmin()
+                    || (request.auth != null
+                        && request.auth.uid == userId
+                        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role']));
+
+      allow delete: if isAdmin();
+    }
+
+    // The shared category list. Everyone reads it to fill the category and
+    // interest pickers; any signed-in user adds to it just by publishing a
+    // dish with a new category.
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow create, update: if request.auth != null;
+      allow delete: if isAdmin();
+    }
+
+    // App-wide settings, e.g. /settings/featuredDish - the dish an admin pinned
+    // to the top of everyone's Home feed. Readable by all, admin-only to change.
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // "Please feature my dish" requests. A user files their own and can see it;
+    // only an admin can see them all and mark them approved/declined.
+    match /featureRequests/{requestId} {
+      allow create: if request.auth != null
+                    && request.auth.uid == request.resource.data.requesterId;
+
+      allow read: if isAdmin()
+                  || (request.auth != null && request.auth.uid == resource.data.requesterId);
+
+      allow update, delete: if isAdmin();
+    }
+  }
+}

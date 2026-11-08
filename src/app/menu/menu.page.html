@@ -1,0 +1,282 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar class="main-toolbar">
+    <ion-title class="app-title">Salo Kusina</ion-title>
+
+    <!-- Profile icon in the top-right corner -->
+    <ion-buttons slot="end">
+      <ion-avatar class="top-profile-avatar" id="menu-profile-trigger" role="button" aria-label="Profile menu">
+        <img [src]="avatarUrl || 'https://ionicframework.com/docs/img/demos/avatar.svg'" alt="Profile" />
+      </ion-avatar>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<!-- Popover box for Logout -->
+<ion-popover trigger="menu-profile-trigger" dismissOnSelect="true">
+  <ng-template>
+    <ion-content class="popover-content">
+      <ion-list lines="none">
+        <ion-item button (click)="editInterests()">
+          <ion-icon name="sparkles-outline" slot="start" aria-hidden="true"></ion-icon>
+          <ion-label>My Interests</ion-label>
+        </ion-item>
+        <ion-item button class="logout-item" (click)="onLogout()">
+          <ion-icon name="log-out-outline" slot="start" aria-hidden="true"></ion-icon>
+          <ion-label>Logout</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-popover>
+
+<!-- Popover box for Notifications -->
+<ion-popover trigger="menu-notif-trigger" dismissOnSelect="true">
+  <ng-template>
+    <ion-content class="popover-content notif-popover">
+      <ion-list lines="none">
+        <ion-item>
+          <ion-label class="ion-text-wrap">
+            <h3>No new notifications</h3>
+            <p>We'll let you know here when there's a new like, comment, or update on the recipes you follow.</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-popover>
+
+<ion-content [fullscreen]="true" class="bg-white">
+
+  <!-- Search bar (only appears once something has loaded, so users can search) -->
+  @if (activeView === 'feed' && allRecipes.length > 0) {
+    <div class="search-bar-container">
+      <ion-searchbar
+        placeholder="Search for a dish or ingredient..."
+        (ionInput)="handleSearch($event)"
+        mode="ios">
+      </ion-searchbar>
+    </div>
+  }
+
+  <!-- Active category filter chip -->
+  @if (activeView === 'feed' && selectedCategory) {
+    <div class="filter-chip-row">
+      <button type="button" class="filter-chip" (click)="filterByCategory(null)">
+        <span>{{ selectedCategory }}</span>
+        <ion-icon name="close-circle" aria-hidden="true"></ion-icon>
+      </button>
+    </div>
+  }
+
+  <!-- Browse Categories screen -->
+  @if (activeView === 'categories') {
+    <div class="categories-page">
+      <h2 class="categories-heading">Browse Categories</h2>
+      @for (cat of categories; track cat.name) {
+        <button type="button" class="category-tile" (click)="filterByCategory(cat.name)">
+          <span class="category-icon"><ion-icon [name]="cat.icon" aria-hidden="true"></ion-icon></span>
+          <span class="category-label">{{ cat.name }}</span>
+        </button>
+      }
+      <button type="button" class="category-tile category-more" (click)="filterByCategory(null)">
+        <span class="category-icon"><ion-icon name="apps-outline" aria-hidden="true"></ion-icon></span>
+        <span class="category-label">More</span>
+      </button>
+    </div>
+  }
+
+  @if (activeView === 'library') {
+    <div class="view-heading">
+      <h2>My Library</h2>
+      <ion-segment [value]="libraryTab" (ionChange)="setLibraryTab($any($event.detail.value))" mode="ios">
+        <ion-segment-button value="saved">
+          <ion-label>Saved</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="liked">
+          <ion-label>Liked</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="mydishes">
+          <ion-label>My Dishes</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+  }
+
+  @if (activeView !== 'categories') {
+  @if (isLoading) {
+    <!-- Skeleton loading state -->
+    <div class="recipe-list-container">
+      @for (placeholder of skeletonPlaceholders; track placeholder) {
+        <div class="recipe-card skeleton-card" aria-hidden="true">
+          <div class="skeleton-cover"></div>
+          <div class="skeleton-line skeleton-title"></div>
+          <div class="skeleton-line skeleton-tag"></div>
+          <div class="skeleton-line skeleton-text"></div>
+        </div>
+      }
+    </div>
+  } @else if (activeView === 'library' && visibleRecipes.length === 0) {
+    <!-- Empty library, message depends on which tab is active -->
+    <div class="empty-state-container">
+      @if (libraryTab === 'liked') {
+        <div class="empty-icon-box">
+          <ion-icon name="heart-outline" aria-hidden="true"></ion-icon>
+        </div>
+        <h3>No liked dishes yet</h3>
+        <p>Tap the heart icon on a recipe to keep track of the ones you love.</p>
+      } @else if (libraryTab === 'mydishes') {
+        <div class="empty-icon-box">
+          <ion-icon name="pencil-outline" aria-hidden="true"></ion-icon>
+        </div>
+        <h3>No dishes of your own yet</h3>
+        <p>Recipes you publish or save as drafts will show up here.</p>
+      } @else {
+        <div class="empty-icon-box">
+          <ion-icon name="bookmark-outline" aria-hidden="true"></ion-icon>
+        </div>
+        <h3>No bookmarks yet</h3>
+        <p>Tap the bookmark icon on a recipe so you can easily find it here again.</p>
+      }
+    </div>
+  } @else if (activeView === 'feed' && allRecipes.length === 0) {
+    <!-- Conditional rendering: empty state when there are no published dishes at all -->
+    <div class="empty-state-container">
+      <div class="empty-icon-box">
+        <ion-icon name="restaurant-outline" aria-hidden="true"></ion-icon>
+      </div>
+      <h3>No dishes yet</h3>
+      <p>We're currently setting up our kitchen and dishes. Watch out for delicious recipes here soon!</p>
+    </div>
+  } @else {
+    <!-- Featured Dish hero banner -->
+    @if (featuredRecipe) {
+      <div class="featured-card" (click)="goToRecipe(featuredRecipe.id)">
+        <img
+          [src]="featuredRecipe.coverPhoto || 'https://ionicframework.com/docs/img/demos/card-media.png'"
+          alt="{{ featuredRecipe.title }}"
+          class="featured-img" />
+        <span class="featured-badge">FEATURED DISH</span>
+        <div class="featured-overlay">
+          <!-- Why this dish won the spot: the admin's pick, or the most-liked
+               dish of the week/month -->
+          @if (featuredReason) {
+            <span class="featured-reason">{{ featuredReason }}</span>
+          }
+          <h2>{{ featuredRecipe.title }}</h2>
+          <p>{{ featuredRecipe.description }}</p>
+        </div>
+      </div>
+    }
+
+    <div class="recipe-list-container">
+      @if (activeView === 'feed' && publishedRecipes.length === 0) {
+        <p class="no-result-text">No dish matches your search.</p>
+      } @else {
+        @if (isUnfilteredFeed && visibleRecipes.length > 0) {
+          <h3 class="section-heading">{{ isPersonalized ? 'Top Dishes For You' : 'Top Dishes' }}</h3>
+          @if (isPersonalized) {
+            <p class="section-sub">Based on the food you like and save.</p>
+          } @else {
+            <!-- No interests yet, so there's nothing to personalize with -->
+            <button type="button" class="section-link" (click)="editInterests()">
+              <ion-icon name="sparkles-outline" aria-hidden="true"></ion-icon>
+              <span>Pick your interests to personalize this</span>
+            </button>
+          }
+        }
+        @for (recipe of visibleRecipes; track recipe.id) {
+          <div class="recipe-card" (click)="goToRecipe(recipe.id)">
+            <img
+              [src]="recipe.coverPhoto || 'https://ionicframework.com/docs/img/demos/card-media.png'"
+              alt="{{ recipe.title }}"
+              class="recipe-card-img" />
+
+            <div class="recipe-card-body">
+              <span class="recipe-category">{{ recipe.category }}</span>
+              @if (recipe.status === 'Draft') {
+                <span class="draft-badge">DRAFT</span>
+              }
+              <h3>{{ recipe.title }}</h3>
+
+              <div class="author-row">
+                <img [src]="recipe.authorAvatarUrl || 'https://ionicframework.com/docs/img/demos/avatar.svg'" alt="Author" class="author-avatar" />
+                <span class="author-name">by {{ recipe.authorUsername || recipe.authorEmail }}</span>
+              </div>
+
+              <p class="recipe-description">{{ recipe.description }}</p>
+
+              <div class="recipe-card-footer">
+                <button
+                  type="button"
+                  class="icon-action-btn like-btn"
+                  [class.active]="isLiked(recipe)"
+                  (click)="toggleLike(recipe, $event)"
+                  [attr.aria-label]="isLiked(recipe) ? 'Remove like' : 'Like this recipe'">
+                  <ion-icon [name]="isLiked(recipe) ? 'heart' : 'heart-outline'" aria-hidden="true"></ion-icon>
+                  <span>{{ likeCount(recipe) }}</span>
+                </button>
+
+                <button
+                  type="button"
+                  class="icon-action-btn bookmark-btn"
+                  [class.active]="isBookmarked(recipe)"
+                  (click)="toggleBookmark(recipe, $event)"
+                  [attr.aria-label]="isBookmarked(recipe) ? 'Remove from Library' : 'Bookmark this recipe'">
+                  <ion-icon [name]="isBookmarked(recipe) ? 'bookmark' : 'bookmark-outline'" aria-hidden="true"></ion-icon>
+                  <span>{{ saveCount(recipe) }}</span>
+                </button>
+
+                <ion-button
+                  size="small"
+                  fill="solid"
+                  class="read-btn"
+                  (click)="goToRecipe(recipe.id); $event.stopPropagation()">
+                  READ
+                </ion-button>
+              </div>
+
+              <!-- "If you want your dish featured, send it to the admin" -->
+              @if (activeView === 'library' && libraryTab === 'mydishes' && recipe.status === 'Published') {
+                <button type="button" class="feature-request-btn" (click)="requestFeature(recipe, $event)">
+                  <ion-icon name="megaphone-outline" aria-hidden="true"></ion-icon>
+                  <span>Ask the admin to feature this dish</span>
+                </button>
+              }
+            </div>
+          </div>
+        }
+      }
+    </div>
+  }
+  }
+
+</ion-content>
+
+<!-- Bottom navigation tabs -->
+<ion-footer class="ion-no-border">
+  <ion-tab-bar slot="bottom" class="custom-tab-bar">
+    <ion-tab-button tab="home" [class.active-tab]="activeView === 'feed'" (click)="goHome()">
+      <ion-icon name="home" aria-hidden="true"></ion-icon>
+      <ion-label>Home</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="search" [class.active-tab]="activeView === 'categories'" (click)="goCategories()">
+      <ion-icon name="search-outline" aria-hidden="true"></ion-icon>
+      <ion-label>Search</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="library" [class.active-tab]="activeView === 'library'" (click)="goLibrary()">
+      <ion-icon name="book-outline" aria-hidden="true"></ion-icon>
+      <ion-label>Library</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="write" (click)="goWrite()">
+      <ion-icon name="pencil-outline" aria-hidden="true"></ion-icon>
+      <ion-label>Write</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="notifications" id="menu-notif-trigger" (click)="onOpenNotifications()">
+      <ion-icon name="notifications-outline" aria-hidden="true"></ion-icon>
+      <ion-label>Alerts</ion-label>
+      @if (hasUnreadNotifications) {
+        <ion-badge color="danger" class="tab-badge">•</ion-badge>
+      }
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">salokusina</string>
+    <string name="title_activity_main">salokusina</string>
+    <string name="package_name">ionic.salokusina</string>
+    <string name="custom_url_scheme">ionic.salokusina</string>
+</resources>
